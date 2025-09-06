@@ -2,6 +2,7 @@ package net.somesanity.skillability;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -15,6 +16,9 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.somesanity.skillability.item.ModCreativeTab;
+import net.somesanity.skillability.item.Moditems;
+import net.somesanity.skillability.packets.ModMessages;
 import org.slf4j.Logger;
 
 @Mod(skillability.MOD_ID)
@@ -27,7 +31,11 @@ public class skillability
     {
         IEventBus modEventBus = context.getModEventBus();
 
+        ModCreativeTab.register(modEventBus);
         modEventBus.addListener(this::commonSetup);
+
+        Moditems.register(modEventBus);
+
         MinecraftForge.EVENT_BUS.register(this);
         modEventBus.addListener(this::addCreative);
         context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
@@ -41,12 +49,14 @@ public class skillability
             LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
 
         LOGGER.info(Config.magicNumberIntroduction + Config.magicNumber);
-
+        event.enqueueWork(ModMessages::register);
         Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
     }
 
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
-
+        if(event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
+            event.accept(Moditems.Soul);
+        }
     }
 
     @SubscribeEvent
