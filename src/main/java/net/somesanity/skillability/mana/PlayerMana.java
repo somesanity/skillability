@@ -1,6 +1,7 @@
 package net.somesanity.skillability.mana;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerPlayer;
 
 public class PlayerMana {
     private int mana;
@@ -29,5 +30,9 @@ public class PlayerMana {
 
     public void loadNBTData(CompoundTag nbt) {
         mana = nbt.getInt("mana");
+    }
+
+    public void loadFromClient(int mana) {
+        this.mana = mana;
     }
 }

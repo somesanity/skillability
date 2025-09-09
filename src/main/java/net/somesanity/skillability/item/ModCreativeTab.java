@@ -15,10 +15,12 @@ public class ModCreativeTab {
 
     public static RegistryObject<CreativeModeTab> SKILLABILITY_TAB = CREATIVE_MODE_TABS.register("skillability_tab",
             () -> CreativeModeTab.builder()
-                    .icon(() -> new ItemStack(Moditems.Soul.get()))
+                    .icon(() -> new ItemStack(Moditems.RedSphere.get()))
                     .title(Component.translatable("creativetab.skillability_tab"))
                     .displayItems(((itemDisplayParameters, output) -> {
-                        output.accept(Moditems.Soul.get());
+                        output.accept(Moditems.BlueSphere.get());
+                        output.accept(Moditems.GreenSphere.get());
+                        output.accept(Moditems.RedSphere.get());
                     }))
                     .build()
     );

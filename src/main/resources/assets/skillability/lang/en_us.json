@@ -1,5 +1,7 @@
 {
-  "item.skillability.soul": "Soul",
+  "item.skillability.bluesphere": "Blue skills sphere",
+  "item.skillability.greensphere": "Green skills sphere",
+  "item.skillability.redsphere": "Red skills sphere",
 
   "creativetab.skillability_tab": "skillability",
 

@@ -27,10 +27,10 @@ public class ModMessages {
 
         INSTANCE = net;
 
-        net.messageBuilder(ExampleC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
-                .decoder(ExampleC2SPacket::new)
-                .encoder(ExampleC2SPacket::toBytes)
-                .consumerMainThread(ExampleC2SPacket::handle)
+        net.messageBuilder(UseSphereC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
+                .decoder(UseSphereC2SPacket::new)
+                .encoder(UseSphereC2SPacket::toBytes)
+                .consumerMainThread(UseSphereC2SPacket::handle)
                 .add();
     }
 
