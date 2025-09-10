@@ -6,6 +6,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
+import net.somesanity.skillability.ModCapabilities.ModCapabilities;
 import net.somesanity.skillability.ModSounds.ModSounds;
 import net.somesanity.skillability.item.Moditems;
 
@@ -42,6 +43,12 @@ public class UseSphereC2SPacket {
                             1.0F,
                             1.0F
                             );
+
+                    player.getCapability(ModCapabilities.EVASION).ifPresent(evasion -> {
+                        evasion.addEvasion(0.1);
+                        double currentEvasion = evasion.getEvasion();
+                        player.sendSystemMessage(Component.literal(String.valueOf(currentEvasion)));
+                    });
                 }
 
                 if (player.level() instanceof ServerLevel level) {

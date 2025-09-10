@@ -1,39 +1,43 @@
 package net.somesanity.skillability.Attributes.Evasion;
 
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.somesanity.skillability.skillability;
+import net.minecraft.nbt.CompoundTag;
 
-@Mod.EventBusSubscriber(modid = skillability.MOD_ID)
-public class Evasion {
+public class Evasion implements IEvasion {
+    private double evasionChance;
+    private final double MIN_EVASION = 0;
+    private final double MAX_EVASION = 0.3;
 
-    @SubscribeEvent
-    public static void onAttack(LivingAttackEvent event) {
-        if(event.getEntity() instanceof ServerPlayer player) {
-            double evasionChance = 0.2;
+    @Override
+    public double getEvasion() {
+        return this.evasionChance;
+    }
 
-            if (player.getRandom().nextDouble() < evasionChance) {
-                event.setCanceled(true);
+    @Override
+    public void setEvasion(double evasion) {
+        this.evasionChance = evasion;
+    }
 
-                player.level().playSound(
-                        null,
-                        player.getX(), player.getY(), player.getZ(),
-                        SoundEvents.ENDERMAN_TELEPORT,
-                        player.getSoundSource(),
-                        1.0F, 1.0F
-                );
+    @Override
+    public void addEvasion(double evasion) {
+        this.evasionChance += evasion;
+        this.evasionChance = Math.max(this.evasionChance, MIN_EVASION);
+        this.evasionChance = Math.min(this.evasionChance, MAX_EVASION);
+    }
 
-                ((ServerLevel) player.level()).sendParticles(
-                        ParticleTypes.SMOKE,
-                        player.getX(), player.getY() + 1.0, player.getZ(),
-                        20, 0.5, 0.5, 0.5, 0.01
-                );
-                player.displayClientMessage(Component.literal("Уклонение!"), true);
-            }
-        }}}
+    @Override
+    public void removeEvasion(double evasion) {
+        this.evasionChance -= evasion;
+        this.evasionChance = Math.max(this.evasionChance, MIN_EVASION);
+        this.evasionChance = Math.min(this.evasionChance, MAX_EVASION);
+    }
+
+    public CompoundTag serializeNBT() {
+        CompoundTag tag = new CompoundTag();
+        tag.putDouble("evasion", this.evasionChance);
+        return tag;
+    }
+
+    public void deserializeNBT(CompoundTag nbt) {
+        this.evasionChance = nbt.getDouble("evasion");
+    }
+}

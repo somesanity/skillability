@@ -15,6 +15,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.somesanity.skillability.ModCapabilities.ModCapabilities;
 import net.somesanity.skillability.ModSounds.ModSounds;
 import net.somesanity.skillability.item.ModCreativeTab;
 import net.somesanity.skillability.item.Moditems;

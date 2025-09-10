@@ -1,42 +1,26 @@
 package net.somesanity.skillability.event;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.somesanity.skillability.mana.PlayerManaProvider;
-import net.somesanity.skillability.packets.ModMessages;
-import net.somesanity.skillability.packets.UseSphereC2SPacket;
+import net.somesanity.skillability.Attributes.Evasion.EvasionProvider;
+import net.somesanity.skillability.Attributes.Evasion.IEvasion;
 
 @Mod.EventBusSubscriber(modid = "skillability")
 public class ModEvents {
     @SubscribeEvent
     public static void onAttachCapabilitiesPlayer(AttachCapabilitiesEvent<Entity> event) {
         if (event.getObject() instanceof Player) {
-            event.addCapability(ResourceLocation.fromNamespaceAndPath("skillability", "mana"), new PlayerManaProvider());
+            event.addCapability(ResourceLocation.fromNamespaceAndPath("skillability", "evasion"), new EvasionProvider());
         }
     }
 
-//    @SubscribeEvent
-//    public static void onPlayerClone(PlayerEvent.Clone event) {
-//        event.getOriginal().reviveCaps();
-//
-//        event.getOriginal().getCapability(PlayerManaProvider.PLAYER_MANA).ifPresent(oldStore -> {
-//            event.getEntity().getCapability(PlayerManaProvider.PLAYER_MANA).ifPresent(newStore -> {
-//                newStore.copyFrom(oldStore);
-//
-//                if (event.getEntity() instanceof ServerPlayer serverPlayer) {
-//                    ModMessages.sendToPlayer(new UseSphereC2SPacket(newStore.getMana()), serverPlayer);
-//                }
-//            });
-//        });
-//
-//
-//
-//        event.getOriginal().invalidateCaps();
-//    }
+    @SubscribeEvent
+    public static void registerCapabilities(RegisterCapabilitiesEvent event) {
+        event.register(IEvasion.class);
+    }
 }
