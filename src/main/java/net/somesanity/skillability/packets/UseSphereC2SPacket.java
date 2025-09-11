@@ -45,9 +45,10 @@ public class UseSphereC2SPacket {
                             );
 
                     player.getCapability(ModCapabilities.EVASION).ifPresent(evasion -> {
-                        evasion.addEvasion(0.1);
-                        double currentEvasion = evasion.getEvasion();
+                        evasion.addEvasion(1);
+                        int currentEvasion = evasion.getEvasion();
                         player.sendSystemMessage(Component.literal(String.valueOf(currentEvasion)));
+                        ModMessages.sendToPlayer(new SyncEvasionS2CPacket(currentEvasion), player);
                     });
                 }
 

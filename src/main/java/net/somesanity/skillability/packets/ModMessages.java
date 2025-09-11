@@ -32,6 +32,12 @@ public class ModMessages {
                 .encoder(UseSphereC2SPacket::toBytes)
                 .consumerMainThread(UseSphereC2SPacket::handle)
                 .add();
+
+        net.messageBuilder(SyncEvasionS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(SyncEvasionS2CPacket::new)
+                .encoder(SyncEvasionS2CPacket::toBytes)
+                .consumerMainThread(SyncEvasionS2CPacket::handle)
+                .add();
     }
 
     public static <MSG> void sendToServer(MSG message) {

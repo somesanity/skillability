@@ -20,11 +20,10 @@ public class EvasionLogic {
     public static void onAttack(LivingAttackEvent event) {
 
         if(event.getEntity() instanceof ServerPlayer player) {
-            double evasionValue = player.getCapability(ModCapabilities.EVASION)
-                    .map(evasion -> evasion.getEvasion())
-                    .orElse(0.0);
-
-            if (player.getRandom().nextDouble() < evasionValue) {
+            int evasionValue = player.getCapability(ModCapabilities.EVASION)
+                    .map(IEvasion::getEvasion)
+                    .orElse(0);
+            if (player.getRandom().nextInt(100) < evasionValue) {
                 event.setCanceled(true);
 
                 player.level().playSound(

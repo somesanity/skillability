@@ -17,19 +17,16 @@ public class statsOverlay {
         GuiGraphics guiGraphics = event.getGuiGraphics();
         Minecraft mc = Minecraft.getInstance();
 
-        // Берём клиента
         Player player = mc.player;
         if (player == null) return;
 
-        // Получаем capability (если она синхронизирована на клиент)
         player.getCapability(ModCapabilities.EVASION).ifPresent(evasion -> {
-            double currentEvasion = evasion.getEvasion();
+            int currentEvasion = evasion.getEvasion();
 
-            // Рисуем текст с этим значением
             Font font = mc.font;
             int x = 5;
             int y = 5;
-            guiGraphics.drawString(font, "Evasion: " + currentEvasion, x, y, 0xFFFFFF);
+            guiGraphics.drawString(font, "Evasion: " + currentEvasion + "%", x, y, 0xFFFFFF);
         });
     }
 }

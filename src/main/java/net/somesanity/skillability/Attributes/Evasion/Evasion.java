@@ -3,29 +3,29 @@ package net.somesanity.skillability.Attributes.Evasion;
 import net.minecraft.nbt.CompoundTag;
 
 public class Evasion implements IEvasion {
-    private double evasionChance;
-    private final double MIN_EVASION = 0;
-    private final double MAX_EVASION = 0.3;
+    private int evasionChance;
+    private final int MIN_EVASION = 0;
+    private final int MAX_EVASION = 30;
 
     @Override
-    public double getEvasion() {
+    public int getEvasion() {
         return this.evasionChance;
     }
 
     @Override
-    public void setEvasion(double evasion) {
+    public void setEvasion(int evasion) {
         this.evasionChance = evasion;
     }
 
     @Override
-    public void addEvasion(double evasion) {
+    public void addEvasion(int evasion) {
         this.evasionChance += evasion;
         this.evasionChance = Math.max(this.evasionChance, MIN_EVASION);
         this.evasionChance = Math.min(this.evasionChance, MAX_EVASION);
     }
 
     @Override
-    public void removeEvasion(double evasion) {
+    public void removeEvasion(int evasion) {
         this.evasionChance -= evasion;
         this.evasionChance = Math.max(this.evasionChance, MIN_EVASION);
         this.evasionChance = Math.min(this.evasionChance, MAX_EVASION);
@@ -33,11 +33,11 @@ public class Evasion implements IEvasion {
 
     public CompoundTag serializeNBT() {
         CompoundTag tag = new CompoundTag();
-        tag.putDouble("evasion", this.evasionChance);
+        tag.putInt("evasion", this.evasionChance);
         return tag;
     }
 
     public void deserializeNBT(CompoundTag nbt) {
-        this.evasionChance = nbt.getDouble("evasion");
+        this.evasionChance = nbt.getInt("evasion");
     }
 }
